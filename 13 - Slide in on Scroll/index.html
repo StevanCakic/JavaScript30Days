@@ -60,16 +60,16 @@
 
     const sliderImages = document.querySelectorAll(".slide-in");
 
-    function checkSlide(){
+    function checkSlide(perc){
       //window.scrollY + window.innerHeight - da bi znao poziciju dna stranica, ne zanima me top
-      // a dio - sliderImage.height / 2 jer zelimo da se slika prikaze ako je 50% u viewportu
+      // a dio - sliderImage.height * perc / 100 jer zelimo da se slika prikaze ako je perc% u viewportu
       sliderImages.forEach(sliderImage => {
-        const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2 ;
+        const slideInAt = (window.scrollY + window.innerHeight) - (sliderImage.height * perc / 100) ;
         //sliderImage.offsetTop - rastojanje od vrha pretrazivaca do vrha slike
         // + sliderImage.height da saznamo rastojanje od vrha pretrazivaca do dna slike
         const imageBottom = sliderImage.offsetTop + sliderImage.height;
         const isHalfShown = slideInAt > sliderImage.offsetTop;
-        const isNotScrolledPast = window.scrollY < (imageBottom - sliderImage.height / 2);
+        const isNotScrolledPast = window.scrollY < (imageBottom - (sliderImage.height * perc / 100));
         if(isHalfShown && isNotScrolledPast){
           sliderImage.classList.add('active');
         }else{
@@ -78,7 +78,7 @@
       });
     }
 
-    window.addEventListener("scroll",debounce(checkSlide));
+    window.addEventListener("scroll",debounce(function(){checkSlide(50)}));
 
   </script>
 
